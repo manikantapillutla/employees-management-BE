@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class LeaveRequest {
     
     @Id
@@ -33,6 +34,8 @@ public class LeaveRequest {
     @ManyToOne
     @JoinColumn(name = "approved_by")
     private Employee approvedBy;
+
+
     
     @Column(name = "approved_at")
     private LocalDateTime approvedAt;
@@ -42,6 +45,9 @@ public class LeaveRequest {
     
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+//    private int days;
+    private String rejectionReason;
     
     @PrePersist
     protected void onCreate(){
@@ -56,4 +62,5 @@ public class LeaveRequest {
     protected void onUpdate(){
         this.updatedAt = LocalDateTime.now();
     }
+
 }

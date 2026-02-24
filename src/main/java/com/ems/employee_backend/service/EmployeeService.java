@@ -94,6 +94,14 @@ public class EmployeeService {
         response.setEmail(employee.getEmail());
         response.setPosition(employee.getJobTitle());
         response.setDepartmentId(employee.getDepartmentId());
+        
+        // Set department name if departmentId exists
+        if (employee.getDepartmentId() != null) {
+            Department department = departmentRepository.findById(employee.getDepartmentId())
+                    .orElse(null);
+            response.setDepartment(department != null ? department.getName() : null);
+        }
+        
         response.setStatus(employee.getStatus());
         response.setStartDate(employee.getHireDate());
         return response;

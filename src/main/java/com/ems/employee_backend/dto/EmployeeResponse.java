@@ -11,6 +11,7 @@ public class EmployeeResponse {
     private String email;
     private String position;
     private Long departmentId;
+    private String department;
     private String status;
     private LocalDate startDate;
 }

@@ -113,4 +113,49 @@ public class AttendanceController {
             @Parameter(description = "Month") @RequestParam(required = false) String month) {
         return new ResponseEntity<>(attendanceService.getSummary(employeeId, month), HttpStatus.OK);
     }
+
+    @GetMapping("/monthly-summary")
+    @Operation(summary = "Get monthly summary for all employees", description = "Get attendance summary for all employees for a specific month")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Monthly summary retrieved successfully")
+    })
+    public ResponseEntity<List<Map<String, Object>>> getMonthlySummary(
+            @Parameter(description = "Month") @RequestParam String month) {
+        return new ResponseEntity<>(attendanceService.getMonthlySummary(month), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Get attendance by ID", description = "Retrieve a specific attendance record by ID")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Attendance record retrieved successfully"),
+        @ApiResponse(responseCode = "404", description = "Attendance record not found")
+    })
+    public ResponseEntity<AttendanceResponse> getAttendanceById(
+            @Parameter(description = "Attendance ID") @PathVariable Long id) {
+        return new ResponseEntity<>(attendanceService.getById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/report")
+    @Operation(summary = "Generate attendance report", description = "Generate attendance report for date range")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Report generated successfully")
+    })
+    public ResponseEntity<Map<String, Object>> generateReport(
+            @Parameter(description = "Start date") @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @Parameter(description = "End date") @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @Parameter(description = "Employee ID (optional)") @RequestParam(required = false) Long employeeId) {
+        return new ResponseEntity<>(attendanceService.generateReport(startDate, endDate, employeeId), HttpStatus.OK);
+    }
+
+    @GetMapping("/calendar/{year}/{month}")
+    @Operation(summary = "Get attendance calendar", description = "Get attendance calendar for a specific month")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Calendar data retrieved successfully")
+    })
+    public ResponseEntity<Map<String, Object>> getAttendanceCalendar(
+            @Parameter(description = "Year") @PathVariable int year,
+            @Parameter(description = "Month") @PathVariable int month,
+            @Parameter(description = "Employee ID (optional)") @RequestParam(required = false) Long employeeId) {
+        return new ResponseEntity<>(attendanceService.getAttendanceCalendar(year, month, employeeId), HttpStatus.OK);
+    }
 }
