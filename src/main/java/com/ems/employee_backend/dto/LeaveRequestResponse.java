@@ -19,4 +19,6 @@ public class LeaveRequestResponse {
     private LocalDateTime approvedAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private int days;
+
 }
