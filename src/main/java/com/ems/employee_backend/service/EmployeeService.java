@@ -7,6 +7,8 @@ import com.ems.employee_backend.entity.Employee;
 import com.ems.employee_backend.repository.DepartmentRepository;
 import com.ems.employee_backend.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +20,7 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final DepartmentRepository departmentRepository;
+    private static final Logger logger= LoggerFactory.getLogger(EmployeeService.class);
 
     public EmployeeResponse create(EmployeeRequest request) {
         Employee emp = Employee.builder()
@@ -29,7 +32,7 @@ public class EmployeeService {
                 .hireDate(request.getStartDate())
                 .departmentId(request.getDepartmentId())
                 .build();
-
+        logger.info("Created Employee in DB");
         Employee savedEmployee = employeeRepository.save(emp);
         return convertToResponse(savedEmployee);
     }
